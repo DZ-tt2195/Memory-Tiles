@@ -1,0 +1,43 @@
+{
+    [
+      "key",
+      "English"
+    ],
+    [
+      "Designer",
+      "by Thomas Tang (DZ)"
+    ],
+    [
+      "Last Update",
+      "Last Updated: June 28, 2025"
+    ],
+    [
+      "Translator Credit",
+      "\"\""
+    ],
+    [
+      "Language",
+      "Language"
+    ],
+    [
+      "Loading",
+      "Loading"
+    ],
+    [
+      "Play",
+      "Play"
+    ],
+    [
+      "Delete",
+      "Delete Scores"
+    ],
+    [
+      "Tiles",
+      "Tiles"
+    ],
+    [
+      "Minigame Count",
+      "One Minigame per"
+    ]
+  ]
+}
