@@ -46,6 +46,26 @@
     [
       "Sec",
       "sec"
+    ],
+    [
+      "Find This Tile",
+      "Find This Tile"
+    ],
+    [
+      "Victory",
+      "You Won!"
+    ],
+    [
+      "Next Minigame",
+      "Next Minigame in:"
+    ],
+    [
+      "N/A",
+      "N/A"
+    ],
+    [
+      "Mistakes Left",
+      "Mistakes Left:"
     ]
   ]
 }
