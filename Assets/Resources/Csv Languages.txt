@@ -38,6 +38,14 @@
     [
       "Minigame Count",
       "One Minigame per"
+    ],
+    [
+      "Revealing Tiles",
+      "Revealing tiles for"
+    ],
+    [
+      "Sec",
+      "sec"
     ]
   ]
 }
