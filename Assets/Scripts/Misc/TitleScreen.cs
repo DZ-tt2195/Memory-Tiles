@@ -1,9 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;
 using System.Collections.Generic;
-using System.Linq;
 
 public class TitleScreen : MonoBehaviour
 {
@@ -12,6 +10,9 @@ public class TitleScreen : MonoBehaviour
 
     [SerializeField] Slider minigameSlider;
     [SerializeField] TMP_Text minigameLabel;
+
+    [SerializeField] TMP_Dropdown minigameDropdown;
+    [SerializeField] Button minigamePlay;
 
     [SerializeField] Button deleteScoreButton;
 
@@ -37,6 +38,16 @@ public class TitleScreen : MonoBehaviour
         {
             minigameLabel.text = $"{Translator.inst.GetText("Minigame")} {(int)value} {Translator.inst.GetText("Tiles")}";
             PlayerPrefs.SetInt("Minigame", (int)value);
+        }
+
+        List<string> minigameScenes = Translator.inst.GetMinigames();
+        for (int i = 0; i < minigameScenes.Count; i++)
+            minigameDropdown.AddOptions(new List<string>() { Translator.inst.GetText(minigameScenes[i]) });
+
+        minigamePlay.onClick.AddListener(PlayMinigame);
+        void PlayMinigame()
+        {
+            Translator.inst.LoadMinigame(minigameScenes[minigameDropdown.value]);
         }
     }
 }

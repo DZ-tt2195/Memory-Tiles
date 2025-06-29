@@ -9,7 +9,7 @@
     ],
     [
       "Last Update",
-      "Last Updated: June 28, 2025"
+      "Last Updated: June 29, 2025"
     ],
     [
       "Translator Credit",
@@ -24,8 +24,16 @@
       "Loading"
     ],
     [
-      "Play",
-      "Play"
+      "Create Puzzle",
+      "Create Puzzle"
+    ],
+    [
+      "Play Minigame",
+      "Play Minigame"
+    ],
+    [
+      "Practice Minigame",
+      "Practice Minigame"
     ],
     [
       "Delete",
@@ -54,6 +62,10 @@
     [
       "Victory",
       "You Won!"
+    ],
+    [
+      "Lost",
+      "You Lost."
     ],
     [
       "Next Minigame",

@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 using MyBox;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEditor;
+using UnityEngine.UI;
 
 public class Translator : MonoBehaviour
 {
@@ -25,6 +27,10 @@ public class Translator : MonoBehaviour
     string apiKey = "AIzaSyCl_GqHd1-WROqf7i2YddE3zH6vSv3sNTA";
     string baseUrl = "https://sheets.googleapis.com/v4/spreadsheets/";
 
+    List<string> minigameScenes = new();
+    string currentMinigame = "";
+    [SerializeField] Image minigameBackground;
+
     private void Awake()
     {
         //Debug.Log(string.Format($"hi {0}", "lol"));
@@ -38,12 +44,32 @@ public class Translator : MonoBehaviour
 
             if (!PlayerPrefs.HasKey("Language")) PlayerPrefs.SetString("Language", "English");
             TxtLanguages();
-            Debug.Log("start downloading");
+            minigameScenes = GetMinigames();
             StartCoroutine(DownloadLanguages());
         }
         else
         {
             Destroy(this.gameObject);
+        }
+
+        List<string> GetMinigames()
+        {
+            string[] list = Directory.GetFiles($"Assets/Minigames", "*.unity", SearchOption.TopDirectoryOnly);
+            List<EditorBuildSettingsScene> allScenes = EditorBuildSettings.scenes.ToList();
+            List<string> listOfMinigames = new();
+            for (int i = 0; i < list.Length; i++)
+            {
+                listOfMinigames.Add(Path.GetFileNameWithoutExtension(list[i]));
+                if (!allScenes.Any(scene => scene.path == list[i])) //if current scene manager doesn't have new scene
+                {
+                    allScenes.Add(new EditorBuildSettingsScene(list[i], true));
+                    Debug.Log($"add {list[i]}");
+                }
+            }
+            //apply all the new scenes into the scene manager
+            EditorBuildSettings.scenes = allScenes.ToArray();
+
+            return listOfMinigames;
         }
     }
 
@@ -213,6 +239,11 @@ public class Translator : MonoBehaviour
         return keyTranslate;
     }
 
+    public List<string> GetMinigames()
+    {
+        return minigameScenes;
+    }
+
     public void ChangeLanguage(string newLanguage)
     {
         if (!PlayerPrefs.GetString("Language").Equals(newLanguage))
@@ -226,6 +257,29 @@ public class Translator : MonoBehaviour
     {
         //ending.SetActive(Player.gamePaused);
         //displayControls.transform.parent.gameObject.SetActive(Player.instance != null);
+
+        minigameBackground.gameObject.SetActive(!currentMinigame.Equals(""));
+
+        if (Input.GetKeyDown(KeyCode.Space) && !currentMinigame.Equals(""))
+        {
+            UnloadMinigame();
+        }
+    }
+
+    #endregion
+
+#region Minigames
+
+    public void LoadMinigame(string sceneName)
+    {
+        currentMinigame = sceneName;
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+    }
+
+    void UnloadMinigame()
+    {
+        SceneManager.UnloadSceneAsync(currentMinigame);
+        currentMinigame = "";
     }
 
     #endregion

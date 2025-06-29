@@ -139,6 +139,7 @@ public class TileManager : MonoBehaviour
             else if (minigames == 0)
             {
                 minigames = PlayerPrefs.GetInt("Minigame");
+                instructions.text = Translator.inst.GetText("Time for Minigame");
             }
             else
             {
