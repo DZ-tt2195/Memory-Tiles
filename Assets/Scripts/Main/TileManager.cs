@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Collections;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TileManager : MonoBehaviour
 {
+
+#region Setup
+
     public static TileManager instance;
 
     [SerializeField] Tile tilePrefab;
@@ -71,10 +75,14 @@ public class TileManager : MonoBehaviour
         }
         health = 5;
         minigames = PlayerPrefs.GetInt("Minigame");
-        StartCoroutine(Reveal(10f));
+        StartCoroutine(RevealTiles(10f));
     }
 
-    IEnumerator Reveal(float time)
+    #endregion
+
+#region Gameplay
+
+    IEnumerator RevealTiles(float time)
     {
         foreach (Tile tile in listOfTiles)
             tile.spriteRenderer.sprite = tile.mySprite;
@@ -105,7 +113,7 @@ public class TileManager : MonoBehaviour
                 {
                     if (hit.collider.gameObject.TryGetComponent<Tile>(out Tile clickedTile))
                     {
-                        Debug.Log($"clicked {clickedTile.name}");
+                        //Debug.Log($"clicked {clickedTile.name}");
                         CheckTile(clickedTile);
                     }
                 }
@@ -147,7 +155,7 @@ public class TileManager : MonoBehaviour
             {
                 minigames = PlayerPrefs.GetInt("Minigame");
                 instructions.text = Translator.inst.GetText("Time for Minigame");
-                Translator.inst.LoadMinigame(Translator.inst.GetMinigames()[0]);
+                MinigameManager.inst.LoadMinigame(MinigameManager.inst.GetMinigames()[0]);
             }
             else
             {
@@ -164,4 +172,7 @@ public class TileManager : MonoBehaviour
             }
         }
     }
+
+    #endregion
+
 }

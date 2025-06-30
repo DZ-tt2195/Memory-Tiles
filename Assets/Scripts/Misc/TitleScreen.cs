@@ -36,18 +36,18 @@ public class TitleScreen : MonoBehaviour
 
         void UpdateMinigameSlider(float value)
         {
-            minigameLabel.text = $"{Translator.inst.GetText("Minigame")} {(int)value} {Translator.inst.GetText("Tiles")}";
+            minigameLabel.text = $"{Translator.inst.GetText("Minigame Count")} {(int)value} {Translator.inst.GetText("Tiles")}";
             PlayerPrefs.SetInt("Minigame", (int)value);
         }
 
-        List<string> minigameScenes = Translator.inst.GetMinigames();
+        List<string> minigameScenes = MinigameManager.inst.GetMinigames();
         for (int i = 0; i < minigameScenes.Count; i++)
             minigameDropdown.AddOptions(new List<string>() { Translator.inst.GetText(minigameScenes[i]) });
 
         minigamePlay.onClick.AddListener(PlayMinigame);
         void PlayMinigame()
         {
-            Translator.inst.LoadMinigame(minigameScenes[minigameDropdown.value]);
+            MinigameManager.inst.LoadMinigame(minigameScenes[minigameDropdown.value]);
         }
     }
 }

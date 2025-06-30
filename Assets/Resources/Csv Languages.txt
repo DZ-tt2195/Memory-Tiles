@@ -72,6 +72,10 @@
       "Begin"
     ],
     [
+      "Done",
+      "Done"
+    ],
+    [
       "Fail Minigame",
       "Fail Minigame"
     ],
@@ -94,6 +98,38 @@
     [
       "Mistakes Left",
       "Mistakes Left:"
+    ],
+    [
+      "Amazing Text",
+      "You did amazing!"
+    ],
+    [
+      "Amazing Letter",
+      "A"
+    ],
+    [
+      "Good Text",
+      "You did good."
+    ],
+    [
+      "Good Letter",
+      "B"
+    ],
+    [
+      "Barely Text",
+      "You barely won."
+    ],
+    [
+      "Barely Letter",
+      "C"
+    ],
+    [
+      "Failed Text",
+      "You failed."
+    ],
+    [
+      "Failed Letter",
+      "D"
     ]
   ]
 }

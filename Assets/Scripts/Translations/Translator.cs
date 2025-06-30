@@ -12,8 +12,6 @@ using UnityEngine.InputSystem;
 using UnityEditor;
 using UnityEngine.UI;
 
-public enum MinigameGrade { Best, Fine, Barely, Failed, None }
-
 public class Translator : MonoBehaviour
 {
 
@@ -29,11 +27,6 @@ public class Translator : MonoBehaviour
     string apiKey = "AIzaSyCl_GqHd1-WROqf7i2YddE3zH6vSv3sNTA";
     string baseUrl = "https://sheets.googleapis.com/v4/spreadsheets/";
 
-    List<string> minigameScenes = new();
-    string currentMinigame = "";
-    [SerializeField] Image minigameBackground;
-    public MinigameGrade grade { get; private set; }
-
     private void Awake()
     {
         //Debug.Log(string.Format($"hi {0}", "lol"));
@@ -45,9 +38,6 @@ public class Translator : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
             Application.targetFrameRate = 60;
 
-            minigameScenes = GetMinigames();
-            minigameBackground.gameObject.SetActive(false);
-
             if (!PlayerPrefs.HasKey("Language")) PlayerPrefs.SetString("Language", "English");
             TxtLanguages();
             StartCoroutine(DownloadLanguages());
@@ -55,26 +45,6 @@ public class Translator : MonoBehaviour
         else
         {
             Destroy(this.gameObject);
-        }
-
-        List<string> GetMinigames()
-        {
-            string[] list = Directory.GetFiles($"Assets/Minigames", "*.unity", SearchOption.TopDirectoryOnly);
-            List<EditorBuildSettingsScene> allScenes = EditorBuildSettings.scenes.ToList();
-            List<string> listOfMinigames = new();
-            for (int i = 0; i < list.Length; i++)
-            {
-                listOfMinigames.Add(Path.GetFileNameWithoutExtension(list[i]));
-                if (!allScenes.Any(scene => scene.path == list[i])) //if current scene manager doesn't have new scene
-                {
-                    allScenes.Add(new EditorBuildSettingsScene(list[i], true));
-                    Debug.Log($"add {list[i]}");
-                }
-            }
-            //apply all the new scenes into the scene manager
-            EditorBuildSettings.scenes = allScenes.ToArray();
-
-            return listOfMinigames;
         }
     }
 
@@ -244,11 +214,6 @@ public class Translator : MonoBehaviour
         return keyTranslate;
     }
 
-    public List<string> GetMinigames()
-    {
-        return minigameScenes;
-    }
-
     public void ChangeLanguage(string newLanguage)
     {
         if (!PlayerPrefs.GetString("Language").Equals(newLanguage))
@@ -262,43 +227,6 @@ public class Translator : MonoBehaviour
     {
         //ending.SetActive(Player.gamePaused);
         //displayControls.transform.parent.gameObject.SetActive(Player.instance != null);
-    }
-
-    #endregion
-
-#region Minigames
-
-    public void LoadMinigame(string sceneName)
-    {
-        currentMinigame = sceneName;
-        this.grade = MinigameGrade.None;
-        minigameBackground.gameObject.SetActive(true);
-        StartCoroutine(LoadAndSetActive(sceneName));
-    }
-
-    IEnumerator LoadAndSetActive(string sceneName)
-    {
-        AsyncOperation loadOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        while (!loadOp.isDone)
-            yield return null;
-
-        Scene loadedScene = SceneManager.GetSceneByName(sceneName);
-        SceneManager.SetActiveScene(loadedScene);
-    }
-
-    public void MinigameEnd(MinigameGrade grade)
-    {
-        if (this.grade == MinigameGrade.None)
-        {
-            this.grade = grade;
-        }
-    }
-
-    void UnloadMinigame()
-    {
-        SceneManager.UnloadSceneAsync(currentMinigame);
-        minigameBackground.gameObject.SetActive(false);
-        currentMinigame = "";
     }
 
     #endregion
