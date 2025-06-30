@@ -60,6 +60,22 @@
       "Find This Tile"
     ],
     [
+      "Time for Minigame",
+      "Time to play a minigame!"
+    ],
+    [
+      "Minigame Explanation",
+      "The better you do in this minigame, the more time you'll get to glance at the remaining tiles."
+    ],
+    [
+      "Begin",
+      "Begin"
+    ],
+    [
+      "Fail Minigame",
+      "Fail Minigame"
+    ],
+    [
       "Victory",
       "You Won!"
     ],

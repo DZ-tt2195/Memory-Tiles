@@ -12,6 +12,8 @@ using UnityEngine.InputSystem;
 using UnityEditor;
 using UnityEngine.UI;
 
+public enum MinigameGrade { Best, Fine, Barely, Failed, None }
+
 public class Translator : MonoBehaviour
 {
 
@@ -30,6 +32,7 @@ public class Translator : MonoBehaviour
     List<string> minigameScenes = new();
     string currentMinigame = "";
     [SerializeField] Image minigameBackground;
+    public MinigameGrade grade { get; private set; }
 
     private void Awake()
     {
@@ -42,9 +45,11 @@ public class Translator : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
             Application.targetFrameRate = 60;
 
+            minigameScenes = GetMinigames();
+            minigameBackground.gameObject.SetActive(false);
+
             if (!PlayerPrefs.HasKey("Language")) PlayerPrefs.SetString("Language", "English");
             TxtLanguages();
-            minigameScenes = GetMinigames();
             StartCoroutine(DownloadLanguages());
         }
         else
@@ -257,13 +262,6 @@ public class Translator : MonoBehaviour
     {
         //ending.SetActive(Player.gamePaused);
         //displayControls.transform.parent.gameObject.SetActive(Player.instance != null);
-
-        minigameBackground.gameObject.SetActive(!currentMinigame.Equals(""));
-
-        if (Input.GetKeyDown(KeyCode.Space) && !currentMinigame.Equals(""))
-        {
-            UnloadMinigame();
-        }
     }
 
     #endregion
@@ -273,12 +271,33 @@ public class Translator : MonoBehaviour
     public void LoadMinigame(string sceneName)
     {
         currentMinigame = sceneName;
-        SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+        this.grade = MinigameGrade.None;
+        minigameBackground.gameObject.SetActive(true);
+        StartCoroutine(LoadAndSetActive(sceneName));
+    }
+
+    IEnumerator LoadAndSetActive(string sceneName)
+    {
+        AsyncOperation loadOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        while (!loadOp.isDone)
+            yield return null;
+
+        Scene loadedScene = SceneManager.GetSceneByName(sceneName);
+        SceneManager.SetActiveScene(loadedScene);
+    }
+
+    public void MinigameEnd(MinigameGrade grade)
+    {
+        if (this.grade == MinigameGrade.None)
+        {
+            this.grade = grade;
+        }
     }
 
     void UnloadMinigame()
     {
         SceneManager.UnloadSceneAsync(currentMinigame);
+        minigameBackground.gameObject.SetActive(false);
         currentMinigame = "";
     }
 

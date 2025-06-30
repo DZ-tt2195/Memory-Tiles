@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class TileManager : MonoBehaviour
 {
+    public static TileManager instance;
+
     [SerializeField] Tile tilePrefab;
     [SerializeField] Sprite faceDown;
 
@@ -41,9 +43,14 @@ public class TileManager : MonoBehaviour
 
     bool cheating = false;
 
+    private void Awake()
+    {
+        instance = this;
+        possibleSprites = Resources.LoadAll<Sprite>("Tile Sprites");
+    }
+
     void Start()
     {
-        possibleSprites = Resources.LoadAll<Sprite>("Tile Sprites");
         for (float i = -7.5f; i<=7.5f; i+=1.5f)
         {
             for (float j = -4f; j<= 2f; j+=1.5f)
@@ -140,6 +147,7 @@ public class TileManager : MonoBehaviour
             {
                 minigames = PlayerPrefs.GetInt("Minigame");
                 instructions.text = Translator.inst.GetText("Time for Minigame");
+                Translator.inst.LoadMinigame(Translator.inst.GetMinigames()[0]);
             }
             else
             {
