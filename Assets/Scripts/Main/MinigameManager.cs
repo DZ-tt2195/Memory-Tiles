@@ -29,6 +29,7 @@ public class MinigameManager : MonoBehaviour
     [SerializeField] Image secondMinigameBG;
     [SerializeField] TMP_Text gradeText;
     [SerializeField] TMP_Text gradeLetter;
+    [SerializeField] Button doneButton;
     public MinigameGrade grade { get; private set; }
 
     private void Awake()
@@ -36,9 +37,11 @@ public class MinigameManager : MonoBehaviour
         inst = this;
         minigameScenes = GetMinigames();
         firstMinigameBG.gameObject.SetActive(false);
-        secondMinigameBG.gameObject.SetActive(false);
         failMinigame.gameObject.SetActive(false);
         failMinigame.onClick.AddListener(() => MinigameEnd(MinigameGrade.Failed));
+
+        secondMinigameBG.gameObject.SetActive(false);
+        doneButton.onClick.AddListener(UnloadMinigame);
 
         List<string> GetMinigames()
         {
@@ -105,9 +108,9 @@ public class MinigameManager : MonoBehaviour
 
     void UnloadMinigame()
     {
-        SceneManager.UnloadSceneAsync(currentMinigame);
         firstMinigameBG.gameObject.SetActive(false);
         secondMinigameBG.gameObject.SetActive(false);
+        SceneManager.UnloadSceneAsync(currentMinigame);
         currentMinigame = "";
     }
 

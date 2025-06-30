@@ -11,6 +11,7 @@ public class TileManager : MonoBehaviour
 #region Setup
 
     public static TileManager instance;
+    Scene thisScene;
 
     [SerializeField] Tile tilePrefab;
     [SerializeField] Sprite faceDown;
@@ -45,12 +46,14 @@ public class TileManager : MonoBehaviour
         }
     }
 
+    int score = 0;
     bool cheating = false;
 
     private void Awake()
     {
         instance = this;
         possibleSprites = Resources.LoadAll<Sprite>("Tile Sprites");
+        thisScene = gameObject.scene;
     }
 
     void Start()
@@ -75,6 +78,9 @@ public class TileManager : MonoBehaviour
         }
         health = 5;
         minigames = PlayerPrefs.GetInt("Minigame");
+
+        score = minigames * 10 + listOfTiles.Count * 100;
+
         StartCoroutine(RevealTiles(10f));
     }
 
@@ -114,7 +120,7 @@ public class TileManager : MonoBehaviour
                     if (hit.collider.gameObject.TryGetComponent<Tile>(out Tile clickedTile))
                     {
                         //Debug.Log($"clicked {clickedTile.name}");
-                        CheckTile(clickedTile);
+                        StartCoroutine(AnalyzeTile(clickedTile));
                     }
                 }
             }
@@ -138,7 +144,7 @@ public class TileManager : MonoBehaviour
         instructions.text = Translator.inst.GetText("Find This Tile");
     }
 
-    void CheckTile(Tile tile)
+    IEnumerator AnalyzeTile(Tile tile)
     {
         if (tile.mySprite == toFind.sprite)
         {
@@ -146,7 +152,10 @@ public class TileManager : MonoBehaviour
             tile.gameObject.SetActive(false);
             toFind.sprite = null;
 
+            instructions.text = Translator.inst.GetText("Correct Tile");
             minigames--;
+            yield return new WaitForSeconds(0.7f);
+
             if (listOfTiles.Count == 0)
             {
                 instructions.text = Translator.inst.GetText("Victory");
@@ -155,7 +164,39 @@ public class TileManager : MonoBehaviour
             {
                 minigames = PlayerPrefs.GetInt("Minigame");
                 instructions.text = Translator.inst.GetText("Time for Minigame");
-                MinigameManager.inst.LoadMinigame(MinigameManager.inst.GetMinigames()[0]);
+
+                List<string> minigameNames = MinigameManager.inst.GetMinigames();
+                string nextMinigame = minigameNames[Random.Range(0, minigameNames.Count)];
+
+                yield return new WaitForSeconds(0.7f);
+                MinigameManager.inst.LoadMinigame(nextMinigame);
+                yield return new WaitForSeconds(0.7f);
+
+                while (thisScene != SceneManager.GetActiveScene())
+                    yield return null;
+
+                switch (MinigameManager.inst.grade)
+                {
+                    case MinigameGrade.Amazing:
+                        instructions.text = Translator.inst.GetText("Second Glance");
+                        yield return new WaitForSeconds(0.7f);
+                        yield return RevealTiles(4f); break;
+                    case MinigameGrade.Good:
+                        instructions.text = Translator.inst.GetText("Second Glance");
+                        score -= 3;
+                        yield return new WaitForSeconds(0.7f);
+                        yield return RevealTiles(2f); break;
+                    case MinigameGrade.Barely:
+                        instructions.text = Translator.inst.GetText("Second Glance");
+                        score -= 6;
+                        yield return new WaitForSeconds(0.7f);
+                        yield return RevealTiles(0.2f); break;
+                    case MinigameGrade.Failed:
+                        instructions.text = Translator.inst.GetText("Failed Glance");
+                        score -= 10;
+                        yield return new WaitForSeconds(0.7f);
+                        NextTile(); break;
+                }
             }
             else
             {
@@ -165,10 +206,16 @@ public class TileManager : MonoBehaviour
         else
         {
             health--;
+            score -= 10;
             if (health == 0)
             {
                 toFind.sprite = null;
+                yield return new WaitForSeconds(0.7f);
                 instructions.text = Translator.inst.GetText("Lost");
+            }
+            else
+            {
+                instructions.text = Translator.inst.GetText("Wrong Tile");
             }
         }
     }

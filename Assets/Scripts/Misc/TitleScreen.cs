@@ -10,11 +10,13 @@ public class TitleScreen : MonoBehaviour
 
     [SerializeField] Slider minigameSlider;
     [SerializeField] TMP_Text minigameLabel;
+    [SerializeField] TMP_Text totalMinigames;
 
     [SerializeField] TMP_Dropdown minigameDropdown;
     [SerializeField] Button minigamePlay;
 
     [SerializeField] Button deleteScoreButton;
+    [SerializeField] TMP_Text bestScore;
 
     void Start()
     {
@@ -27,6 +29,7 @@ public class TitleScreen : MonoBehaviour
         {
             tileLabel.text = $"{Translator.inst.GetText("Tiles")}: {value}";
             PlayerPrefs.SetInt("Tiles", (int)value);
+            UpdateTotalMinigames();
         }
 
         if (!PlayerPrefs.HasKey("Minigame")) PlayerPrefs.SetInt("Minigame", 4);
@@ -38,6 +41,13 @@ public class TitleScreen : MonoBehaviour
         {
             minigameLabel.text = $"{Translator.inst.GetText("Minigame Count")} {(int)value} {Translator.inst.GetText("Tiles")}";
             PlayerPrefs.SetInt("Minigame", (int)value);
+            UpdateTotalMinigames();
+        }
+
+        void UpdateTotalMinigames()
+        {
+            int amount = (int)(tileSlider.value / minigameSlider.value) - 1;
+            totalMinigames.text = $"{Mathf.Max(1, amount)} {Translator.inst.GetText($"Minigames")}";
         }
 
         List<string> minigameScenes = MinigameManager.inst.GetMinigames();
@@ -48,6 +58,21 @@ public class TitleScreen : MonoBehaviour
         void PlayMinigame()
         {
             MinigameManager.inst.LoadMinigame(minigameScenes[minigameDropdown.value]);
+        }
+
+        FindScore();
+        void FindScore()
+        {
+            if (PlayerPrefs.GetInt("High Score") > 0)
+                bestScore.text = $"{Translator.inst.GetText("High Score")}: {PlayerPrefs.HasKey("High Score")}";
+            else
+                bestScore.text = Translator.inst.GetText("No Score");
+        }
+        deleteScoreButton.onClick.AddListener(DeleteScores);
+        void DeleteScores()
+        {
+            PlayerPrefs.SetInt("High Score", 0);
+            FindScore();
         }
     }
 }
