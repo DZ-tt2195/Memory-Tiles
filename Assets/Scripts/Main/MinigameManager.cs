@@ -21,12 +21,15 @@ public class MinigameManager : MonoBehaviour
 
     [Foldout("First Minigame Popup", true)]
     [SerializeField] Image firstMinigameBG;
+    [SerializeField] TMP_Text minigameName;
     [SerializeField] TMP_Text minigameTutorial;
     [SerializeField] Button failMinigame;
+    [SerializeField] Button playMinigame;
     string currentMinigame = "";
 
     [Foldout("Second Minigame Popup", true)]
     [SerializeField] Image secondMinigameBG;
+    [SerializeField] Image gradeColoring;
     [SerializeField] TMP_Text gradeText;
     [SerializeField] TMP_Text gradeLetter;
     [SerializeField] Button doneButton;
@@ -36,7 +39,10 @@ public class MinigameManager : MonoBehaviour
     {
         inst = this;
         minigameScenes = GetMinigames();
+
         firstMinigameBG.gameObject.SetActive(false);
+        playMinigame.onClick.AddListener(StartMinigame);
+
         failMinigame.gameObject.SetActive(false);
         failMinigame.onClick.AddListener(() => MinigameEnd(MinigameGrade.Failed));
 
@@ -77,6 +83,10 @@ public class MinigameManager : MonoBehaviour
     {
         currentMinigame = sceneName;
         this.grade = MinigameGrade.None;
+
+        minigameName.text = Translator.inst.GetText(sceneName);
+        minigameTutorial.text = Translator.inst.GetText($"{sceneName} Tutorial");
+
         firstMinigameBG.gameObject.SetActive(true);
         failMinigame.gameObject.SetActive(true);
         StartCoroutine(LoadAndSetActive(sceneName));
@@ -92,6 +102,12 @@ public class MinigameManager : MonoBehaviour
         SceneManager.SetActiveScene(loadedScene);
     }
 
+    void StartMinigame()
+    {
+        CurrentMinigame.instance.StartMinigame();
+        firstMinigameBG.gameObject.SetActive(false);
+    }
+
     public void MinigameEnd(MinigameGrade grade)
     {
         if (this.grade == MinigameGrade.None)
@@ -99,10 +115,17 @@ public class MinigameManager : MonoBehaviour
             firstMinigameBG.gameObject.SetActive(false);
             secondMinigameBG.gameObject.SetActive(true);
             failMinigame.gameObject.SetActive(false);
-            this.grade = grade;
 
+            this.grade = grade;
             gradeText.text = Translator.inst.GetText($"{grade} Text");
             gradeLetter.text = Translator.inst.GetText($"{grade} Letter");
+            gradeColoring.color = this.grade switch
+            {
+                MinigameGrade.Amazing => Color.green,
+                MinigameGrade.Good => Color.blue,
+                MinigameGrade.Barely => Color.red,
+                _ => Color.gray
+            };
         }
     }
 

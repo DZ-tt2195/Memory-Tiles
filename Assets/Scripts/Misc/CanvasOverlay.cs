@@ -24,7 +24,7 @@ public class CanvasOverlay : MonoBehaviour
         }
         foreach (CanvasGroup group in listOfGroups)
         {
-            group.alpha = ThisIsActiveScene() ? 1 : 0.25f;
+            group.alpha = ThisIsActiveScene() ? 1 : 0.15f;
             group.blocksRaycasts = ThisIsActiveScene();
         }
     }

@@ -9,7 +9,7 @@
     ],
     [
       "Last Update",
-      "Last Updated: June 29, 2025"
+      "Last Updated: July 05, 2025"
     ],
     [
       "Translator Credit",
@@ -162,6 +162,18 @@
     [
       "High Score",
       "High Score"
+    ],
+    [
+      "Alphabet",
+      "Alphabet"
+    ],
+    [
+      "Alphabet Tutorial",
+      "Type the 26 letters of the alphabet as quick as you can, starting at a random letter."
+    ],
+    [
+      "Type This",
+      "Type This Letter"
     ]
   ]
 }

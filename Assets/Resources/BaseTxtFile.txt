@@ -38,3 +38,6 @@ Failed Glance=
 Score=
 No Score=
 High Score=
+Alphabet=
+Alphabet Tutorial=
+Type This=
