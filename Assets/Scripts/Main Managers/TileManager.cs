@@ -190,7 +190,7 @@ public class TileManager : MonoBehaviour
                         instructions.text = Translator.inst.GetText("Second Glance");
                         score -= 6;
                         yield return new WaitForSeconds(0.7f);
-                        yield return RevealTiles(0.2f); break;
+                        yield return RevealTiles(0.25f); break;
                     case MinigameGrade.Failed:
                         instructions.text = Translator.inst.GetText("Failed Glance");
                         score -= 10;

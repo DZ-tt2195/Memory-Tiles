@@ -16,7 +16,7 @@ public class Alphabet : CurrentMinigame
 
     private void Awake()
     {
-        CurrentMinigame.instance = this;
+        instance = this;
 
         keysToPress = new();
         for (char c = 'A'; c <= 'Z'; c++)
@@ -27,9 +27,23 @@ public class Alphabet : CurrentMinigame
         gameTimer = new Stopwatch();
     }
 
+    protected override MinigameGrade CurrentGrade(float score)
+    {
+        if (score <= amazingGrade)
+            return MinigameGrade.Amazing;
+        else if (score >= amazingGrade && score <= goodGrade)
+            return MinigameGrade.Good;
+        else if (score >= goodGrade && score <= barelyGrade)
+            return MinigameGrade.Barely;
+        else
+            return MinigameGrade.Failed;
+    }
+
     public override void StartMinigame()
     {
         base.StartMinigame();
+        PlaceMarker(amazingGrade / barelyGrade);
+        PlaceMarker(goodGrade / barelyGrade);
         gameTimer.Start();
         currentLetter.text = keysToPress[currentPosition].ToString();
     }
@@ -39,10 +53,11 @@ public class Alphabet : CurrentMinigame
         if (gameTimer.IsRunning)
         {
             stopwatchText.text = StopwatchTime(gameTimer);
-            performanceSlider.value = (float)gameTimer.Elapsed.TotalSeconds / failGrade;
+            performanceSlider.value = (float)gameTimer.Elapsed.TotalSeconds / barelyGrade;
             if (performanceSlider.value == 1)
             {
                 gameTimer.Stop();
+                gameCompleted = true;
                 MinigameManager.inst.MinigameEnd(MinigameGrade.Failed);
             }
             if (Input.GetKeyDown(keysToPress[currentPosition]))
@@ -52,6 +67,7 @@ public class Alphabet : CurrentMinigame
                 {
                     currentLetter.text = "";
                     gameTimer.Stop();
+                    gameCompleted = true;
                     MinigameManager.inst.MinigameEnd(CurrentGrade((float)gameTimer.Elapsed.TotalSeconds));
                 }
                 else

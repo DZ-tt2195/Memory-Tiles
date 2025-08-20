@@ -51,7 +51,7 @@ public class MinigameManager : MonoBehaviour
 
         List<string> GetMinigames()
         {
-            string[] list = Directory.GetFiles($"Assets/Minigames", "*.unity", SearchOption.TopDirectoryOnly);
+            string[] list = Directory.GetFiles($"Assets/Minigame Scenes", "*.unity", SearchOption.TopDirectoryOnly);
             List<EditorBuildSettingsScene> allScenes = EditorBuildSettings.scenes.ToList();
             List<string> listOfMinigames = new();
             for (int i = 0; i < list.Length; i++)
