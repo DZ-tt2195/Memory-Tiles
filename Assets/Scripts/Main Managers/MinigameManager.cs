@@ -84,8 +84,8 @@ public class MinigameManager : MonoBehaviour
         currentMinigame = sceneName;
         this.grade = MinigameGrade.None;
 
-        minigameName.text = Translator.inst.GetText(sceneName);
-        minigameTutorial.text = Translator.inst.GetText($"{sceneName} Tutorial");
+        minigameName.text = Translator.inst.Translate(sceneName);
+        minigameTutorial.text = Translator.inst.Translate($"{sceneName} Tutorial");
 
         firstMinigameBG.gameObject.SetActive(true);
         failMinigame.gameObject.SetActive(true);
@@ -117,8 +117,8 @@ public class MinigameManager : MonoBehaviour
             failMinigame.gameObject.SetActive(false);
 
             this.grade = grade;
-            gradeText.text = Translator.inst.GetText($"{grade} Text");
-            gradeLetter.text = Translator.inst.GetText($"{grade} Letter");
+            gradeText.text = Translator.inst.Translate($"{grade} Text");
+            gradeLetter.text = Translator.inst.Translate($"{grade} Letter");
             gradeColoring.color = this.grade switch
             {
                 MinigameGrade.Amazing => new Color(0, 0.8f, 0),

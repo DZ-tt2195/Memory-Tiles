@@ -27,7 +27,7 @@ public class TitleScreen : MonoBehaviour
 
         void UpdateTileSlider(float value)
         {
-            tileLabel.text = $"{Translator.inst.GetText("Tiles")}: {value}";
+            tileLabel.text = $"{Translator.inst.Translate("Tiles")}: {value}";
             PlayerPrefs.SetInt("Tiles", (int)value);
             UpdateTotalMinigames();
         }
@@ -39,20 +39,22 @@ public class TitleScreen : MonoBehaviour
 
         void UpdateMinigameSlider(float value)
         {
-            minigameLabel.text = $"{Translator.inst.GetText("Minigame Count")} {(int)value} {Translator.inst.GetText("Tiles")}";
+            minigameLabel.text = Translator.inst.Translate("Minigame Count", new() { ("Num", $"{(int)value}") });
             PlayerPrefs.SetInt("Minigame", (int)value);
             UpdateTotalMinigames();
         }
 
         void UpdateTotalMinigames()
         {
-            int amount = (int)(tileSlider.value / minigameSlider.value) - 1;
-            totalMinigames.text = $"{Mathf.Max(1, amount)} {Translator.inst.GetText($"Minigames")}";
+            int amount = (int)(tileSlider.value / minigameSlider.value);
+            if ((int)tileSlider.value % (int)minigameSlider.value == 0)
+                amount--;
+            totalMinigames.text = $"{amount} {Translator.inst.Translate($"Minigames")}";
         }
 
         List<string> minigameScenes = MinigameManager.inst.GetMinigames();
         for (int i = 0; i < minigameScenes.Count; i++)
-            minigameDropdown.AddOptions(new List<string>() { Translator.inst.GetText(minigameScenes[i]) });
+            minigameDropdown.AddOptions(new List<string>() { Translator.inst.Translate(minigameScenes[i]) });
 
         minigamePlay.onClick.AddListener(PlayMinigame);
         void PlayMinigame()
@@ -64,9 +66,9 @@ public class TitleScreen : MonoBehaviour
         void FindScore()
         {
             if (PlayerPrefs.GetInt("High Score") > 0)
-                bestScore.text = $"{Translator.inst.GetText("High Score")}: {PlayerPrefs.HasKey("High Score")}";
+                bestScore.text = $"{Translator.inst.Translate("High Score")}: {PlayerPrefs.HasKey("High Score")}";
             else
-                bestScore.text = Translator.inst.GetText("No Score");
+                bestScore.text = Translator.inst.Translate("No Score");
         }
         deleteScoreButton.onClick.AddListener(DeleteScores);
         void DeleteScores()

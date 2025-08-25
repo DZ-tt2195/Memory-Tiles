@@ -9,7 +9,7 @@
     ],
     [
       "Last Update",
-      "Last Updated: August 22, 2025"
+      "Last Updated: August 25, 2025"
     ],
     [
       "Translator Credit",
@@ -49,15 +49,11 @@
     ],
     [
       "Minigame Count",
-      "One Minigame per"
+      "One Minigame per $Num$ Tiles"
     ],
     [
       "Revealing Tiles",
-      "Revealing tiles for"
-    ],
-    [
-      "Sec",
-      "sec"
+      "Revealing tiles for $Num$ sec"
     ],
     [
       "Find This Tile",
@@ -93,7 +89,11 @@
     ],
     [
       "Next Minigame",
-      "Next Minigame in:"
+      "Next Minigame in $Num$ Tiles"
+    ],
+    [
+      "No More Minigames",
+      "No More Minigames"
     ],
     [
       "N/A",
@@ -101,7 +101,7 @@
     ],
     [
       "Mistakes Left",
-      "Mistakes Left:"
+      "Mistakes Left: $Num$"
     ],
     [
       "Correct Tile",

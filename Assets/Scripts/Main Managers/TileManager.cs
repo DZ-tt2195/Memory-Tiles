@@ -27,8 +27,11 @@ public class TileManager : MonoBehaviour
     int health
     {
         get { return _health; }
-        set { _health = value;
-            mistakesLeftText.text = $"{Translator.inst.GetText("Mistakes Left")} {value}"; }
+        set
+        {
+            _health = value;
+            mistakesLeftText.text = Translator.inst.Translate("Mistakes Left", new() { ("Num", value.ToString()) });
+        } 
     }
 
     [SerializeField] TMP_Text minigameCountText;
@@ -37,12 +40,12 @@ public class TileManager : MonoBehaviour
     {
         get { return _minigames; }
         set
-        { _minigames = value;
-            minigameCountText.text = $"{Translator.inst.GetText("Next Minigame")} ";
+        {
+            _minigames = value;
             if (_minigames < listOfTiles.Count)
-                minigameCountText.text += $"{value} {Translator.inst.GetText("Tiles")}";
+                minigameCountText.text = Translator.inst.Translate("Next Minigame", new() { ("Num", value.ToString()) });
             else
-                minigameCountText.text += $"{Translator.inst.GetText("N/A")}";
+                minigameCountText.text = $"{Translator.inst.Translate("No More Minigames")}";
         }
     }
 
@@ -53,7 +56,7 @@ public class TileManager : MonoBehaviour
     {
         instance = this;
         possibleSprites = Resources.LoadAll<Sprite>("Tile Sprites");
-        thisScene = gameObject.scene;
+        thisScene = this.gameObject.scene;
     }
 
     void Start()
@@ -97,7 +100,7 @@ public class TileManager : MonoBehaviour
         while (elapsedTime > 0)
         {
             elapsedTime -= Time.deltaTime;
-            instructions.text = $"{Translator.inst.GetText($"Revealing Tiles")} {elapsedTime:F1}{Translator.inst.GetText($"Sec")}";
+            instructions.text = $"{Translator.inst.Translate($"Revealing Tiles", new() { ("Num", $"{elapsedTime:F1}")})}";
             yield return null;
         }
         foreach (Tile tile in listOfTiles)
@@ -141,7 +144,7 @@ public class TileManager : MonoBehaviour
     {
         Tile randomTile = listOfTiles[Random.Range(0, listOfTiles.Count)];
         toFind.sprite = randomTile.mySprite;
-        instructions.text = Translator.inst.GetText("Find This Tile");
+        instructions.text = Translator.inst.Translate("Find This Tile");
     }
 
     IEnumerator AnalyzeTile(Tile tile)
@@ -152,18 +155,18 @@ public class TileManager : MonoBehaviour
             tile.gameObject.SetActive(false);
             toFind.sprite = null;
 
-            instructions.text = Translator.inst.GetText("Correct Tile");
+            instructions.text = Translator.inst.Translate("Correct Tile");
             minigames--;
             yield return new WaitForSeconds(0.7f);
 
             if (listOfTiles.Count == 0)
             {
-                instructions.text = Translator.inst.GetText("Victory");
+                instructions.text = Translator.inst.Translate("Victory");
             }
             else if (minigames == 0)
             {
                 minigames = PlayerPrefs.GetInt("Minigame");
-                instructions.text = Translator.inst.GetText("Time for Minigame");
+                instructions.text = Translator.inst.Translate("Time for Minigame");
 
                 List<string> minigameNames = MinigameManager.inst.GetMinigames();
                 string nextMinigame = minigameNames[Random.Range(0, minigameNames.Count)];
@@ -178,21 +181,21 @@ public class TileManager : MonoBehaviour
                 switch (MinigameManager.inst.grade)
                 {
                     case MinigameGrade.Amazing:
-                        instructions.text = Translator.inst.GetText("Second Glance");
+                        instructions.text = Translator.inst.Translate("Second Glance");
                         yield return new WaitForSeconds(0.7f);
                         yield return RevealTiles(4f); break;
                     case MinigameGrade.Good:
-                        instructions.text = Translator.inst.GetText("Second Glance");
+                        instructions.text = Translator.inst.Translate("Second Glance");
                         score -= 3;
                         yield return new WaitForSeconds(0.7f);
                         yield return RevealTiles(2f); break;
                     case MinigameGrade.Barely:
-                        instructions.text = Translator.inst.GetText("Second Glance");
+                        instructions.text = Translator.inst.Translate("Second Glance");
                         score -= 6;
                         yield return new WaitForSeconds(0.7f);
                         yield return RevealTiles(0.25f); break;
                     case MinigameGrade.Failed:
-                        instructions.text = Translator.inst.GetText("Failed Glance");
+                        instructions.text = Translator.inst.Translate("Failed Glance");
                         score -= 10;
                         yield return new WaitForSeconds(0.7f);
                         NextTile(); break;
@@ -211,11 +214,11 @@ public class TileManager : MonoBehaviour
             {
                 toFind.sprite = null;
                 yield return new WaitForSeconds(0.7f);
-                instructions.text = Translator.inst.GetText("Lost");
+                instructions.text = Translator.inst.Translate("Lost");
             }
             else
             {
-                instructions.text = Translator.inst.GetText("Wrong Tile");
+                instructions.text = Translator.inst.Translate("Wrong Tile");
             }
         }
     }
