@@ -57,7 +57,7 @@ public class Alphabet : CurrentMinigame
             if (performanceSlider.value == 1)
             {
                 gameTimer.Stop();
-                gameCompleted = true;
+                gameState = GameState.Ended;
                 MinigameManager.inst.MinigameEnd(MinigameGrade.Failed);
             }
             if (Input.GetKeyDown(keysToPress[currentPosition]))
@@ -67,7 +67,7 @@ public class Alphabet : CurrentMinigame
                 {
                     currentLetter.text = "";
                     gameTimer.Stop();
-                    gameCompleted = true;
+                    gameState = GameState.Ended;
                     MinigameManager.inst.MinigameEnd(CurrentGrade((float)gameTimer.Elapsed.TotalSeconds));
                 }
                 else

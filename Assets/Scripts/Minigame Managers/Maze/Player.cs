@@ -15,11 +15,14 @@ namespace Maze
 
         private void FixedUpdate()
         {
-            float moveX = Input.GetAxis("Horizontal");
-            float moveY = Input.GetAxis("Vertical");
+            if (manager.gameState == GameState.Started)
+            {
+                float moveX = Input.GetAxis("Horizontal");
+                float moveY = Input.GetAxis("Vertical");
 
-            Vector2 movement = new Vector2(moveX, moveY);
-            rb.MovePosition(rb.position + 7.5f * Time.fixedDeltaTime * movement);
+                Vector2 movement = new Vector2(moveX, moveY);
+                rb.MovePosition(rb.position + 7.5f * Time.fixedDeltaTime * movement);
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

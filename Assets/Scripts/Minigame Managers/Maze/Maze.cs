@@ -31,7 +31,7 @@ namespace Maze
                 if (!anyLeft)
                 {
                     gameTimer.Stop();
-                    gameCompleted = true;
+                    gameState = GameState.Ended;
                     MinigameManager.inst.MinigameEnd(CurrentGrade((float)gameTimer.Elapsed.TotalSeconds));
                 }
             }
@@ -65,7 +65,7 @@ namespace Maze
                 if (performanceSlider.value == 1)
                 {
                     gameTimer.Stop();
-                    gameCompleted = true;
+                    gameState = GameState.Ended;
                     MinigameManager.inst.MinigameEnd(MinigameGrade.Failed);
                 }
             }

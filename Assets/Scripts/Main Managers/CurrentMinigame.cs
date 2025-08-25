@@ -3,10 +3,12 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum GameState { Reading, Started, Ended }
+
 public class CurrentMinigame : MonoBehaviour
 {
     public static CurrentMinigame instance;
-    public bool gameCompleted { get; protected set; }
+    public GameState gameState { get; protected set; }
 
     [SerializeField] protected float amazingGrade;
     [SerializeField] protected float goodGrade;
@@ -18,6 +20,7 @@ public class CurrentMinigame : MonoBehaviour
 
     public virtual void StartMinigame()
     {
+        gameState = GameState.Started;
         performanceSlider = GameObject.Find("Performance Slider").GetComponent<Slider>();
         markerPrefab = Resources.Load<Image>("Marker").GetComponent<Image>();
         rect = performanceSlider.GetComponent<RectTransform>();

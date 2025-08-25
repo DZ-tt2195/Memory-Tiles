@@ -190,6 +190,14 @@
     [
       "Maze Tutorial",
       "Use arrow keys / WASD to move around the maze and collect all the coins as quick as you can. The skulls reset you to the center."
+    ],
+    [
+      "Orbs",
+      "Orbs"
+    ],
+    [
+      "Orbs Tutorial",
+      "Touch the orbs in the order they're generated. In between each one, you must also touch the one at the bottom."
     ]
   ]
 }
