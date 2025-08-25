@@ -10,6 +10,7 @@ namespace CoinCollect
     {
         int score = 0;
         int currentLevel = -1;
+        [SerializeField] TMP_Text textBox;
 
         private void Awake()
         {
@@ -20,6 +21,7 @@ namespace CoinCollect
         {
             score = Mathf.Max(0, score + change);
             performanceSlider.value = (float)score / 20;
+            textBox.text = $"{score}";
         }
 
         public void NextLevel()

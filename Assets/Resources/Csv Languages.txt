@@ -9,7 +9,7 @@
     ],
     [
       "Last Update",
-      "Last Updated: August 19, 2025"
+      "Last Updated: August 22, 2025"
     ],
     [
       "Translator Credit",
@@ -181,7 +181,15 @@
     ],
     [
       "Coin Collect Tutorial",
-      "Press space to send your character across the screen. Collect the coins and avoid the spikes."
+      "Press space to send your character across the screen. Collect the coins and avoid the skulls."
+    ],
+    [
+      "Maze",
+      "Maze"
+    ],
+    [
+      "Maze Tutorial",
+      "Use arrow keys / WASD to move around the maze and collect all the coins as quick as you can. The skulls reset you to the center."
     ]
   ]
 }

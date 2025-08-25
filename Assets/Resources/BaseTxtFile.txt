@@ -43,3 +43,5 @@ Alphabet Tutorial=
 Type This=
 Coin Collect=
 Coin Collect Tutorial=
+Maze=
+Maze Tutorial=

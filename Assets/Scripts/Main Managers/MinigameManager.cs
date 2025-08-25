@@ -121,7 +121,7 @@ public class MinigameManager : MonoBehaviour
             gradeLetter.text = Translator.inst.GetText($"{grade} Letter");
             gradeColoring.color = this.grade switch
             {
-                MinigameGrade.Amazing => Color.green,
+                MinigameGrade.Amazing => new Color(0, 0.8f, 0),
                 MinigameGrade.Good => Color.blue,
                 MinigameGrade.Barely => Color.red,
                 _ => Color.gray

@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Minigame Scenes/Coin Collect.unity
     guid: 51a15b73392434305949dd55518712d3
+  - enabled: 1
+    path: Assets/Minigame Scenes/Maze.unity
+    guid: a6a34ea3712344f30b3e03e1e12c9aed
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

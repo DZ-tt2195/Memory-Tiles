@@ -36,10 +36,12 @@ namespace CoinCollect
             else if (collision.CompareTag("Coin"))
             {
                 manager.ChangeScore(1);
+                collision.gameObject.SetActive(false);
             }
             else if (collision.CompareTag("Death"))
             {
                 manager.ChangeScore(-1);
+                collision.gameObject.SetActive(false);
             }
         }
     }
