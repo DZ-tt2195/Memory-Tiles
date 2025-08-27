@@ -8,6 +8,7 @@ TagManager:
   - Spike
   - Coin
   - Death
+  - Rocket
   layers:
   - Default
   - TransparentFX

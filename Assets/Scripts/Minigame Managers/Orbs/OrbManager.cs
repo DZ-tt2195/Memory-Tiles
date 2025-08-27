@@ -8,6 +8,7 @@ public class OrbManager : CurrentMinigame
     int currentNumber = 1;
     int currentGen = 1;
     bool toCollect = false;
+    Queue<Orb> orbQueue = new();
     [SerializeField] Orb orbPrefab;
 
     private void Awake()
@@ -52,7 +53,9 @@ public class OrbManager : CurrentMinigame
                             toCollect = false;
                             currentNumber++;
                             performanceSlider.value = (float)currentNumber / amazingGrade;
-                            Destroy(touchedOrb.gameObject);
+
+                            orbQueue.Enqueue(touchedOrb);
+                            touchedOrb.gameObject.SetActive(false);
 
                             if (currentNumber >= amazingGrade)
                                 GameOver();
@@ -84,12 +87,14 @@ public class OrbManager : CurrentMinigame
     {
         for (int i = 0; i < 2; i++)
         {
-            Orb newOrb = Instantiate(orbPrefab);
+            Orb newOrb = (orbQueue.Count > 0) ? orbQueue.Dequeue() : Instantiate(orbPrefab);
+            newOrb.gameObject.SetActive(true);
             newOrb.spriteRenderer.color = new(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f), 1);
+            newOrb.transform.position = new(Random.Range(-6f, 6f), Random.Range(-2f, 4f));
+
             int newNumber = currentGen;
             newOrb.number = currentGen;
             newOrb.name = $"{newNumber}";
-            newOrb.transform.position = new(Random.Range(-6f, 6f), Random.Range(-2f, 4f));
             currentGen++;
 
             yield return new WaitForSeconds(2f);
