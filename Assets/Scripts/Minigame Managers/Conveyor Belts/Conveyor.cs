@@ -3,18 +3,20 @@ using UnityEngine;
 public class Conveyor : MonoBehaviour
 {
     [SerializeField] bool state;
-    float speed = 1f;
+    float speed = 2f;
     [SerializeField] GameObject bomb;
+    ConveyorBelts manager;
 
-    private void Awake()
+    private void Start()
     {
         FlipConveyor();
+        manager = (ConveyorBelts)CurrentMinigame.instance;
     }
 
     public void ChangeConveyor()
     {
         state = !state;
-        speed += 0.2f;
+        speed += 0.5f;
         FlipConveyor();
     }
 
@@ -31,13 +33,11 @@ public class Conveyor : MonoBehaviour
 
     private void Update()
     {
-        if (CurrentMinigame.instance.gameState == GameState.Started)
+        if (manager.gameState == GameState.Started)
         {
             bomb.transform.Translate(Time.deltaTime * new Vector3(state ? speed : -speed, 0, 0));
-            if (bomb.transform.position.x <= -8 || bomb.transform.position.x >= 8)
-            {
-
-            }
+            if (bomb.transform.position.x <= -7.5f || bomb.transform.position.x >= 7.5f)
+                manager.GameEnded();
         }
     }
 }

@@ -39,9 +39,7 @@ public class ConveyorBelts : CurrentMinigame
             performanceSlider.value = (float)gameTimer.Elapsed.TotalSeconds / amazingGrade;
             if (performanceSlider.value == 1)
             {
-                gameTimer.Stop();
-                gameState = GameState.Ended;
-                MinigameManager.inst.MinigameEnd(MinigameGrade.Amazing);
+                GameEnded();
             }
 
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -53,5 +51,12 @@ public class ConveyorBelts : CurrentMinigame
                     touchedConveyor.ChangeConveyor();
             }
         }
+    }
+
+    public void GameEnded()
+    {
+        gameTimer.Stop();
+        gameState = GameState.Ended;
+        MinigameManager.inst.MinigameEnd(CurrentGrade((float)gameTimer.Elapsed.TotalSeconds));
     }
 }
