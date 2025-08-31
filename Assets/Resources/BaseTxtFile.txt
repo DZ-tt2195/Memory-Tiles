@@ -49,3 +49,5 @@ Orbs=Orbs
 Orbs Tutorial=Touch the orbs in the order they're generated. In between each one, you must also touch the one at the bottom.
 Rocket Defense=Rocket Defense
 Rocket Defense Tutorial=Rockets are vulnerable while charging up. Protect them from the bullets by clicking on them.
+Conveyor Belts=Conveyor Belts
+Conveyor Belts Tutorial=Change each conveyor belt to prevent the bombs from reaching the end. Each belt speeds up the more you change it.

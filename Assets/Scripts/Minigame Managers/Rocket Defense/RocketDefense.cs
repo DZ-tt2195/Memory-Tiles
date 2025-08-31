@@ -13,7 +13,6 @@ public class RocketDefense : CurrentMinigame
     {
         instance = this;
         listOfRockets = FindObjectsByType<Rocket>(FindObjectsSortMode.None);
-        InvokeRepeating(nameof(CreateBullet), 0f, 1f);
     }
 
     protected override MinigameGrade CurrentGrade(float score)
@@ -33,6 +32,7 @@ public class RocketDefense : CurrentMinigame
         base.StartMinigame();
         PlaceMarker(barelyGrade / amazingGrade);
         PlaceMarker(goodGrade / amazingGrade);
+        InvokeRepeating(nameof(CreateBullet), 0f, 1.25f);
     }
 
     private void Update()
@@ -91,6 +91,7 @@ public class RocketDefense : CurrentMinigame
     public void GameOver()
     {
         gameState = GameState.Ended;
-        MinigameManager.inst.MinigameEnd(CurrentGrade(RemainingRockets().Count));
+        List<Rocket> rocketsLeft = RemainingRockets();
+        MinigameManager.inst.MinigameEnd(CurrentGrade(listOfRockets.Length - rocketsLeft.Count));
     }
 }
