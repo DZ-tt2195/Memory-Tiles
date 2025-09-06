@@ -4,7 +4,7 @@ namespace FloorIsLava
 {
     public class Lava : MonoBehaviour
     {
-        float timer = 1.5f;
+        float timer;
         enum CurrentState { Inactive, Waiting, Deadly }
         CurrentState myState = CurrentState.Inactive;
         SpriteRenderer spriteRenderer;
@@ -13,6 +13,7 @@ namespace FloorIsLava
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.color = Color.blue;
+            timer = Random.Range(0f, 2f);
         }
 
         void Update()
@@ -29,19 +30,22 @@ namespace FloorIsLava
                             {
                                 myState = CurrentState.Waiting;
                                 spriteRenderer.color = Color.yellow;
-                                timer = 1.5f;
+                                timer = 2f;
                             }
-                            timer = 1.5f;
+                            else
+                            {
+                                timer = Random.Range(0.25f, 2f);
+                            }
                             break;
                         case CurrentState.Waiting:
                             myState = CurrentState.Deadly;
                             spriteRenderer.color = Color.red;
-                            timer = 3f;
+                            timer = Random.Range(1.5f, 3f);
                             break;
                         case CurrentState.Deadly:
                             myState = CurrentState.Inactive;
                             spriteRenderer.color = Color.blue;
-                            timer = 1.5f;
+                            timer = Random.Range(0.25f, 2f);
                             break;
                     }
                 }
