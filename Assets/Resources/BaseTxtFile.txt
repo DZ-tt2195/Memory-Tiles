@@ -1,5 +1,5 @@
 Designer=by Thomas Tang (DZ)
-Last Update=Last Updated: September 03, 2025
+Last Update=Last Updated: September 09, 2025
 Translator Credit=
 Language=Language
 Loading=Loading
@@ -53,3 +53,5 @@ Conveyor Belts=Conveyor Belts
 Conveyor Belts Tutorial=Change each conveyor belt to prevent the bombs from reaching the end. Each belt speeds up the more you change it.
 Floor Is Lava=Floor Is Lava
 Floor Is Lava Tutorial=The tiles will turn yellow and then red. Don't touch any red tiles for as long as you can.
+Timer=Timer
+Timer Tutorial=Press space to pause the timer as close as you can to the target time.
