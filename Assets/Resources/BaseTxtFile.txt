@@ -55,3 +55,5 @@ Floor Is Lava=Floor Is Lava
 Floor Is Lava Tutorial=The tiles will turn yellow and then red. Don't touch any red tiles for as long as you can.
 Timer=Timer
 Timer Tutorial=Press space to pause the timer as close as you can to the target time.
+Number Memory=Number Memory
+Number Memory Tutorial=Remember the numbers that come up; you'll have to click the button with that number later on.
