@@ -6,6 +6,7 @@ namespace Maze
     {
         Rigidbody2D rb;
         Maze manager;
+        private Vector2 inputMovement;
 
         private void Start()
         {
@@ -13,27 +14,26 @@ namespace Maze
             manager = (Maze)CurrentMinigame.instance;
         }
 
-        private void FixedUpdate()
+        void Update()
         {
             if (manager.gameState == GameState.Started)
             {
                 float moveX = Input.GetAxis("Horizontal");
                 float moveY = Input.GetAxis("Vertical");
-
-                Vector2 movement = new Vector2(moveX, moveY);
-                rb.MovePosition(rb.position + 7.5f * Time.fixedDeltaTime * movement);
+                inputMovement = new Vector2(moveX, moveY);
+            }
+            else
+            {
+                inputMovement = Vector2.zero;
             }
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+
+        private void FixedUpdate()
         {
-            if (collision.CompareTag("Coin"))
+            if (manager.gameState == GameState.Started)
             {
-                manager.GotCoin(collision.gameObject);
-            }
-            else if (collision.CompareTag("Death"))
-            {
-                this.transform.position = Vector3.zero;
+                rb.MovePosition(rb.position + 7.5f * Time.fixedDeltaTime * inputMovement);
             }
         }
     }

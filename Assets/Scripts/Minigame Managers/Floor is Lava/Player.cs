@@ -6,6 +6,7 @@ namespace FloorIsLava
     {
         Rigidbody2D rb;
         FloorIsLava manager;
+        private Vector2 inputMovement;
 
         private void Start()
         {
@@ -13,15 +14,25 @@ namespace FloorIsLava
             manager = (FloorIsLava)CurrentMinigame.instance;
         }
 
-        private void FixedUpdate()
+        void Update()
         {
             if (manager.gameState == GameState.Started)
             {
                 float moveX = Input.GetAxis("Horizontal");
                 float moveY = Input.GetAxis("Vertical");
+                inputMovement = new Vector2(moveX, moveY);
+            }
+            else
+            {
+                inputMovement = Vector2.zero;
+            }
+        }
 
-                Vector2 movement = new Vector2(moveX, moveY);
-                rb.MovePosition(rb.position + 7.5f * Time.fixedDeltaTime * movement);
+        private void FixedUpdate()
+        {
+            if (manager.gameState == GameState.Started)
+            {
+                rb.MovePosition(rb.position + 7.5f * Time.fixedDeltaTime * inputMovement);
             }
         }
     }

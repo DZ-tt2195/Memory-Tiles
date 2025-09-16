@@ -9,7 +9,7 @@
     ],
     [
       "Last Update",
-      "Last Updated: September 09, 2025"
+      "Last Updated: September 15, 2025"
     ],
     [
       "Translator Credit",
@@ -238,6 +238,14 @@
     [
       "Number Memory Tutorial",
       "Remember the numbers that come up; you'll have to click the button with that number later on."
+    ],
+    [
+      "Cloud Bounce",
+      "Cloud Bounce"
+    ],
+    [
+      "Cloud Bounce Tutorial",
+      "Avoid the skulls for as long as possible by bouncing on the platforms."
     ]
   ]
 }

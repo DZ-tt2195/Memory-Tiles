@@ -1,5 +1,5 @@
 Designer=by Thomas Tang (DZ)
-Last Update=Last Updated: September 09, 2025
+Last Update=Last Updated: September 15, 2025
 Translator Credit=
 Language=Language
 Loading=Loading
@@ -57,3 +57,5 @@ Timer=Timer
 Timer Tutorial=Press space to pause the timer as close as you can to the target time.
 Number Memory=Number Memory
 Number Memory Tutorial=Remember the numbers that come up; you'll have to click the button with that number later on.
+Cloud Bounce=Cloud Bounce
+Cloud Bounce Tutorial=Avoid the skulls for as long as possible by bouncing on the platforms.
