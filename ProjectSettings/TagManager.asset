@@ -9,6 +9,8 @@ TagManager:
   - Coin
   - Death
   - Rocket
+  - Floor
+  - Platform
   layers:
   - Default
   - TransparentFX
