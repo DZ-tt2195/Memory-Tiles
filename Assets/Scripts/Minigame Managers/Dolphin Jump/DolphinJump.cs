@@ -2,22 +2,27 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 namespace DolphinJump
 {
     public class DolphinJump : CurrentMinigame
     {
         Stopwatch gameTimer;
-        Queue<GameObject> platformQueue = new();
-        [SerializeField] GameObject platformPrefab;
+        [SerializeField] TMP_Text timerText;
 
-        Queue<GameObject> deathQueue = new();
-        [SerializeField] GameObject deathPrefab;
+        int score = 0;
+        Queue<GameObject> coinQueue = new();
+        [SerializeField] GameObject coinPrefab;
+
+        Queue<GameObject> rockQueue = new();
+        [SerializeField] GameObject rockPrefab;
 
         private void Awake()
         {
             instance = this;
             gameTimer = new Stopwatch();
+            timerText.text = "";
         }
 
         protected override MinigameGrade CurrentGrade(float score)
@@ -38,88 +43,77 @@ namespace DolphinJump
             PlaceMarker(barelyGrade / amazingGrade);
             PlaceMarker(goodGrade / amazingGrade);
             gameTimer.Start();
-            //InvokeRepeating(nameof(CreatePlatforms), 0f, 2f);
-            //InvokeRepeating(nameof(NewDeath), 0f, 2f);
+            InvokeRepeating(nameof(CreateCoin), 0f, 1);
+            InvokeRepeating(nameof(CreateRock), 0f, 2f);
         }
 
         private void Update()
         {
             if (gameState == GameState.Started)
             {
-                performanceSlider.value = (float)gameTimer.Elapsed.TotalSeconds / amazingGrade;
-                /*
-                if (performanceSlider.value == 1)
-                    GameEnded();*/
+                performanceSlider.value = (float)score / amazingGrade;
+                timerText.text = StopwatchTime(gameTimer);
             }
         }
 
-        void CreatePlatforms()
+        public void ReturnToQueue(GameObject obj, bool coin, bool affectScore)
+        {
+            if (coin)
+            {
+                coinQueue.Enqueue(obj);
+                obj.SetActive(false);
+                if (affectScore)
+                    score = (int)Mathf.Clamp(score + 1, 0, amazingGrade);
+            }
+            else
+            {
+                rockQueue.Enqueue(obj);
+                obj.SetActive(false);
+                if (affectScore)
+                    score = (int)Mathf.Clamp(score - 3, 0, amazingGrade);
+            }
+        }
+
+        void CreateCoin()
         {
             if (gameState != GameState.Started)
                 return;
 
-            for (int i = 0; i < 6; i++)
-            {
-                GameObject newPlatform = (platformQueue.Count > 0) ? platformQueue.Dequeue() : Instantiate(platformPrefab);
-                newPlatform.transform.position = new(Random.Range(-7.5f, 7.5f), Random.Range(3f, -4f));
-                newPlatform.SetActive(true);
-            }
+            GameObject newCoin = (coinQueue.Count > 0) ? coinQueue.Dequeue() : Instantiate(coinPrefab);
+            newCoin.SetActive(true);
+
+            float randomY = Random.Range(-4f, 4f);
+            Vector2 starting = new(10f, randomY);
+            Vector2 ending = new(-10f, randomY);
+            StartCoroutine(MoveObject(newCoin, false, Random.Range(20, 30f), starting, ending));
         }
 
-        public void ReturnPlatform(GameObject platform)
-        {
-            platformQueue.Enqueue(platform);
-            platform.SetActive(false);
-        }
-
-        void NewDeath()
+        void CreateRock()
         {
             if (gameState != GameState.Started)
                 return;
 
-            for (int i = 0; i < 4; i++)
+            GameObject newRock = (rockQueue.Count > 0) ? rockQueue.Dequeue() : Instantiate(rockPrefab);
+            newRock.SetActive(true);
+
+            float randomY = Random.Range(-5f, 4f);
+            Vector2 starting = new(10f, randomY);
+            Vector2 ending = new(-10f, randomY);
+            StartCoroutine(MoveObject(newRock, false, Random.Range(10f, 15f), starting, ending));
+        }
+
+        IEnumerator MoveObject(GameObject obj, bool coin, float targetTime, Vector2 start, Vector2 end)
+        {
+            float elapsedTime = 0f;
+            while (elapsedTime < targetTime)
             {
-                GameObject newDeath = (deathQueue.Count > 0) ? deathQueue.Dequeue() : Instantiate(deathPrefab);
-                newDeath.SetActive(true);
-
-                int randomNum = Random.Range(0, 4);
-                Vector2 starting = Vector3.one;
-                Vector2 ending = Vector3.one;
-
-                switch (randomNum)
-                {
-                    case 0:
-                        starting = new(-8f, Random.Range(2f, -2f));
-                        ending = new(8f, Random.Range(2f, -2f));
-                        break;
-                    case 1:
-                        starting = new(8f, Random.Range(2f, -2f));
-                        ending = new(-8f, Random.Range(2f, -2f));
-                        break;
-                    case 2:
-                        starting = new(Random.Range(-6f, 6f), 5f);
-                        ending = new(Random.Range(-6f, 6f), -5f);
-                        break;
-                    case 3:
-                        starting = new(Random.Range(-6f, 6f), -5f);
-                        ending = new(Random.Range(-6f, 6f), 5f);
-                        break;
-                }
-                StartCoroutine(MoveDeath(newDeath, Random.Range(5f, 15f), starting, ending));
+                elapsedTime += Time.deltaTime;
+                obj.transform.position = Vector2.Lerp(start, end, elapsedTime / targetTime);
+                yield return null;
+                if (!obj.activeSelf)
+                    yield break;
             }
-
-            IEnumerator MoveDeath(GameObject death, float targetTime, Vector2 start, Vector2 end)
-            {
-                float elapsedTime = 0f;
-                while (elapsedTime < targetTime)
-                {
-                    elapsedTime += Time.deltaTime;
-                    death.transform.position = Vector2.Lerp(start, end, elapsedTime / targetTime);
-                    yield return null;
-                }
-                deathQueue.Enqueue(death);
-                death.gameObject.SetActive(false);
-            }
+            ReturnToQueue(obj, coin, false);
         }
 
         public void GameEnded()

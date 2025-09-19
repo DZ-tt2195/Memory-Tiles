@@ -1,5 +1,5 @@
 Designer=by Thomas Tang (DZ)
-Last Update=Last Updated: September 18, 2025
+Last Update=Last Updated: September 19, 2025
 Translator Credit=
 Language=Language
 Loading=Loading
@@ -60,4 +60,4 @@ Number Memory Tutorial=Remember the numbers that come up; you'll have to click t
 Cloud Bounce=Cloud Bounce
 Cloud Bounce Tutorial=Avoid the skulls for as long as possible by bouncing on the platforms.
 Dolphin Jump=Dolphin Jump
-Dolphin Jump Tutorial=Swim upward to leap out of the water and jump higher. Grab as many coins as you can, and avoid the rocks.
+Dolphin Jump Tutorial=Swim upward to leap out of the water and jump higher. Grab as many coins as you can in 30 seconds, and avoid the rocks.

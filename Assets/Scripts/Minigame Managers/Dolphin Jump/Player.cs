@@ -49,5 +49,17 @@ namespace DolphinJump
                 rb.velocity = Vector3.zero;
             }
         }
+
+        private void OnTriggerStay2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Coin"))
+            {
+                manager.ReturnToQueue(collision.gameObject, true, true);
+            }
+            else if (collision.CompareTag("Death"))
+            {
+                manager.ReturnToQueue(collision.gameObject, false, true);
+            }
+        }
     }
 }

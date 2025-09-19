@@ -9,7 +9,7 @@
     ],
     [
       "Last Update",
-      "Last Updated: September 18, 2025"
+      "Last Updated: September 19, 2025"
     ],
     [
       "Translator Credit",
@@ -253,7 +253,7 @@
     ],
     [
       "Dolphin Jump Tutorial",
-      "Swim upward to leap out of the water and jump higher. Grab as many coins as you can, and avoid the rocks."
+      "Swim upward to leap out of the water and jump higher. Grab as many coins as you can in 30 seconds, and avoid the rocks."
     ]
   ]
 }

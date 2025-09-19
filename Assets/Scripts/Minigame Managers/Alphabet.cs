@@ -11,7 +11,6 @@ public class Alphabet : CurrentMinigame
     int currentPosition;
 
     [SerializeField] TMP_Text currentLetter;
-    [SerializeField] TMP_Text stopwatchText;
     Stopwatch gameTimer;
 
     private void Awake()
@@ -52,7 +51,6 @@ public class Alphabet : CurrentMinigame
     {
         if (gameTimer.IsRunning)
         {
-            stopwatchText.text = StopwatchTime(gameTimer);
             performanceSlider.value = (float)gameTimer.Elapsed.TotalSeconds / barelyGrade;
             if (performanceSlider.value == 1)
             {
