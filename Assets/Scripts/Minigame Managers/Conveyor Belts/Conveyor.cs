@@ -3,7 +3,7 @@ using UnityEngine;
 public class Conveyor : MonoBehaviour
 {
     [SerializeField] bool state;
-    float speed = 2f;
+    [SerializeField] float speed;
     [SerializeField] GameObject bomb;
     ConveyorBelts manager;
 
@@ -16,7 +16,7 @@ public class Conveyor : MonoBehaviour
     public void ChangeConveyor()
     {
         state = !state;
-        speed += 0.5f;
+        speed += 0.25f;
         FlipConveyor();
     }
 
@@ -36,7 +36,7 @@ public class Conveyor : MonoBehaviour
         if (manager.gameState == GameState.Started)
         {
             bomb.transform.Translate(Time.deltaTime * new Vector3(state ? speed : -speed, 0, 0));
-            if (bomb.transform.position.x <= -7.5f || bomb.transform.position.x >= 7.5f)
+            if (Mathf.Abs(bomb.transform.position.x) >= (this.transform.localScale.x / 2f))
                 manager.GameEnded();
         }
     }

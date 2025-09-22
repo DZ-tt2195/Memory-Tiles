@@ -266,9 +266,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 383d2f37afded4dc180d2d82d442eff3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amazingGrade: 15
-  goodGrade: 10
-  barelyGrade: 5
+  amazingGrade: 20
+  goodGrade: 13
+  barelyGrade: 6
   timerText: {fileID: 327612831}
   coinPrefab: {fileID: 7111877122021526420, guid: e367f11ffed724657a0b5bb505ecb685, type: 3}
   rockPrefab: {fileID: 5295845330422481364, guid: e083860cba06547d6815ae9ee120cbc4, type: 3}

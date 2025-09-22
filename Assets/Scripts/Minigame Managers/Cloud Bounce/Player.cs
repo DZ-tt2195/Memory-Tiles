@@ -35,7 +35,7 @@ namespace CloudAttack
         {
             if (rb.velocity.y < 0 && collision.CompareTag("Platform"))
             {
-                rb.velocity = new Vector2(rb.velocity.x, 10f);
+                rb.velocity = new Vector2(rb.velocity.x, 12f);
                 manager.ReturnPlatform(collision.gameObject);
             }
             else if (collision.CompareTag("Death"))

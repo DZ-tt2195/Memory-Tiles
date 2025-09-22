@@ -42,8 +42,9 @@ namespace DolphinJump
             base.StartMinigame();
             PlaceMarker(barelyGrade / amazingGrade);
             PlaceMarker(goodGrade / amazingGrade);
+
             gameTimer.Start();
-            InvokeRepeating(nameof(CreateCoin), 0f, 1);
+            InvokeRepeating(nameof(CreateCoin), 0f, 1f);
             InvokeRepeating(nameof(CreateRock), 0f, 2f);
         }
 
@@ -53,6 +54,12 @@ namespace DolphinJump
             {
                 performanceSlider.value = (float)score / amazingGrade;
                 timerText.text = StopwatchTime(gameTimer);
+                if (gameTimer.Elapsed.TotalSeconds >= 30)
+                {
+                    gameTimer.Stop();
+                    gameState = GameState.Ended;
+                    MinigameManager.inst.MinigameEnd(CurrentGrade((float)score));
+                }
             }
         }
 
@@ -85,7 +92,7 @@ namespace DolphinJump
             float randomY = Random.Range(-4f, 4f);
             Vector2 starting = new(10f, randomY);
             Vector2 ending = new(-10f, randomY);
-            StartCoroutine(MoveObject(newCoin, false, Random.Range(20, 30f), starting, ending));
+            StartCoroutine(MoveObject(newCoin, false, Random.Range(5f, 10f), starting, ending));
         }
 
         void CreateRock()
@@ -99,7 +106,7 @@ namespace DolphinJump
             float randomY = Random.Range(-5f, 4f);
             Vector2 starting = new(10f, randomY);
             Vector2 ending = new(-10f, randomY);
-            StartCoroutine(MoveObject(newRock, false, Random.Range(10f, 15f), starting, ending));
+            StartCoroutine(MoveObject(newRock, false, Random.Range(15f, 20f), starting, ending));
         }
 
         IEnumerator MoveObject(GameObject obj, bool coin, float targetTime, Vector2 start, Vector2 end)
@@ -109,9 +116,10 @@ namespace DolphinJump
             {
                 elapsedTime += Time.deltaTime;
                 obj.transform.position = Vector2.Lerp(start, end, elapsedTime / targetTime);
-                yield return null;
-                if (!obj.activeSelf)
+                if (!obj.activeInHierarchy)
                     yield break;
+                else
+                    yield return null;
             }
             ReturnToQueue(obj, coin, false);
         }

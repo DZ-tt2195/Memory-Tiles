@@ -7,7 +7,6 @@ using System.Collections;
 public class CloudBounce : CurrentMinigame
 {
     Stopwatch gameTimer;
-    Queue<GameObject> platformQueue = new();
     [SerializeField] GameObject platformPrefab;
 
     Queue<GameObject> deathQueue = new();
@@ -37,7 +36,13 @@ public class CloudBounce : CurrentMinigame
         PlaceMarker(barelyGrade / amazingGrade);
         PlaceMarker(goodGrade / amazingGrade);
         gameTimer.Start();
-        InvokeRepeating(nameof(CreatePlatforms), 0f, 2f);
+
+        for (int i = 0; i < 8; i++)
+        {
+            GameObject newPlatform = Instantiate(platformPrefab);
+            ReturnPlatform(newPlatform);
+        }
+
         InvokeRepeating(nameof(NewDeath), 0f, 2f);
     }
 
@@ -51,23 +56,9 @@ public class CloudBounce : CurrentMinigame
         }
     }
 
-    void CreatePlatforms()
-    {
-        if (gameState != GameState.Started)
-            return;
-
-        for (int i = 0; i < 6; i++)
-        {
-            GameObject newPlatform = (platformQueue.Count > 0) ? platformQueue.Dequeue() : Instantiate(platformPrefab);
-            newPlatform.transform.position = new(Random.Range(-7.5f, 7.5f), Random.Range(3f, -4f));
-            newPlatform.SetActive(true);
-        }
-    }
-
     public void ReturnPlatform(GameObject platform)
     {
-        platformQueue.Enqueue(platform);
-        platform.SetActive(false);
+        platform.transform.position = new(Random.Range(-7.5f, 7.5f), Random.Range(2f, -3.5f));
     }
 
     void NewDeath()
@@ -75,7 +66,7 @@ public class CloudBounce : CurrentMinigame
         if (gameState != GameState.Started)
             return;
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 2; i++)
         {
             GameObject newDeath = (deathQueue.Count > 0) ? deathQueue.Dequeue() : Instantiate(deathPrefab);
             newDeath.SetActive(true);
@@ -87,23 +78,23 @@ public class CloudBounce : CurrentMinigame
             switch (randomNum)
             {
                 case 0:
-                    starting = new(-8f, Random.Range(2f, -2f));
-                    ending = new(8f, Random.Range(2f, -2f));
+                    starting = new(-8f, Random.Range(4f, -4f));
+                    ending = new(8f, Random.Range(4f, -4f));
                     break;
                 case 1:
-                    starting = new(8f, Random.Range(2f, -2f));
-                    ending = new(-8f, Random.Range(2f, -2f));
+                    starting = new(8f, Random.Range(4f, -4f));
+                    ending = new(-8f, Random.Range(4f, -4f));
                     break;
                 case 2:
-                    starting = new(Random.Range(-6f, 6f), 5f);
-                    ending = new(Random.Range(-6f, 6f), -5f);
+                    starting = new(Random.Range(-6f, 6f), 8f);
+                    ending = new(Random.Range(-6f, 6f), -8f);
                     break;
                 case 3:
-                    starting = new(Random.Range(-6f, 6f), -5f);
-                    ending = new(Random.Range(-6f, 6f), 5f);
+                    starting = new(Random.Range(-6f, 6f), -8f);
+                    ending = new(Random.Range(-6f, 6f), 8f);
                     break;
             }
-            StartCoroutine(MoveDeath(newDeath, Random.Range(5f, 15f), starting, ending));
+            StartCoroutine(MoveDeath(newDeath, Random.Range(10f, 15f), starting, ending));
         }
 
         IEnumerator MoveDeath(GameObject death, float targetTime, Vector2 start, Vector2 end)

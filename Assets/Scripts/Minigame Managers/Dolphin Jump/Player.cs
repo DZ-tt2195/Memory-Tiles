@@ -28,8 +28,7 @@ namespace DolphinJump
 
                 if (newState == WaterState.AboveWater && state == WaterState.BelowWater)
                 {
-                    rb.velocity = new Vector2(moveX, Mathf.Abs(lowestPoint*4.2f));
-                    Debug.Log($"set velocity to {lowestPoint} -> {rb.velocity.y}");
+                    rb.velocity = new Vector2(moveX, Mathf.Abs(lowestPoint*4.25f));
                 }
                 else if (transform.position.y >= 0)
                 {
