@@ -1,5 +1,5 @@
 Designer=by Thomas Tang (DZ)
-Last Update=Last Updated: September 19, 2025
+Last Update=Last Updated: September 23, 2025
 Translator Credit=
 Language=Language
 Loading=Loading
@@ -35,6 +35,8 @@ Failed Text=You failed.
 Failed Letter=D
 Second Glance=Based on your performance, you get another look at the tiles.
 Failed Glance=Since you failed the minigame, you don't get another look at the tiles.
+End Text=Your score: $Score$nTheoretical best score: $BestScore$nnTo increase your score:nAdd more tilesnAdd larger gaps between minigamesnGet better ranks in minigamesnSelect fewer wrong tiles
+Done=Done
 Score=Score
 No Score=No High Scores Found
 High Score=High Score

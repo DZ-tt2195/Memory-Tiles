@@ -50,6 +50,9 @@ public class TileManager : MonoBehaviour
     }
 
     int score = 0;
+    int maxScore = 0;
+    [SerializeField] TMP_Text endText;
+    [SerializeField] Button doneButton;
     bool cheating = false;
 
     private void Awake()
@@ -80,10 +83,12 @@ public class TileManager : MonoBehaviour
             listOfTiles.RemoveAt(randomNumber);
         }
         health = 5;
+
         minigames = PlayerPrefs.GetInt("Minigame");
-
-        score = minigames * 10 + listOfTiles.Count * 100;
-
+        score = (minigames * 10) + (listOfTiles.Count * 100);
+        maxScore = score;
+        doneButton.gameObject.SetActive(false);
+        endText.gameObject.SetActive(false);
         StartCoroutine(RevealTiles(10f));
     }
 
@@ -162,6 +167,9 @@ public class TileManager : MonoBehaviour
             if (listOfTiles.Count == 0)
             {
                 instructions.text = Translator.inst.Translate("Victory");
+                GameDone();
+                if (score > PlayerPrefs.GetInt("High Score"))
+                    PlayerPrefs.SetInt("High Score", score);
             }
             else if (minigames == 0)
             {
@@ -215,12 +223,20 @@ public class TileManager : MonoBehaviour
                 toFind.sprite = null;
                 yield return new WaitForSeconds(0.7f);
                 instructions.text = Translator.inst.Translate("Lost");
+                GameDone();
             }
             else
             {
                 instructions.text = Translator.inst.Translate("Wrong Tile");
             }
         }
+    }
+
+    void GameDone()
+    {
+        doneButton.gameObject.SetActive(true);
+        endText.gameObject.SetActive(true);
+        endText.text = Translator.inst.Translate("End Text", new() { ("Score", score.ToString()), ("BestScore", maxScore.ToString()) });
     }
 
     #endregion

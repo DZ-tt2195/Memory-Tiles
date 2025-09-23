@@ -28,6 +28,13 @@ namespace Maze
             }
         }
 
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Coin"))
+                manager.GotCoin(collision.gameObject);
+            else if (collision.CompareTag("Death"))
+                this.transform.position = Vector3.zero;
+        }
 
         private void FixedUpdate()
         {

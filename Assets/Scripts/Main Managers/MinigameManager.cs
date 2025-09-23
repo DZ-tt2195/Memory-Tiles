@@ -38,7 +38,7 @@ public class MinigameManager : MonoBehaviour
     private void Awake()
     {
         inst = this;
-        minigameScenes = GetMinigames();
+        minigameScenes = FindMinigames();
 
         firstMinigameBG.gameObject.SetActive(false);
         playMinigame.onClick.AddListener(StartMinigame);
@@ -49,24 +49,18 @@ public class MinigameManager : MonoBehaviour
         secondMinigameBG.gameObject.SetActive(false);
         doneButton.onClick.AddListener(UnloadMinigame);
 
-        List<string> GetMinigames()
+        List<string> FindMinigames()
         {
-            string[] list = Directory.GetFiles($"Assets/Minigame Scenes", "*.unity", SearchOption.TopDirectoryOnly);
-            List<EditorBuildSettingsScene> allScenes = EditorBuildSettings.scenes.ToList();
-            List<string> listOfMinigames = new();
-            for (int i = 0; i < list.Length; i++)
-            {
-                listOfMinigames.Add(Path.GetFileNameWithoutExtension(list[i]));
-                if (!allScenes.Any(scene => scene.path == list[i])) //if current scene manager doesn't have new scene
-                {
-                    allScenes.Add(new EditorBuildSettingsScene(list[i], true));
-                    Debug.Log($"add {list[i]}");
-                }
-            }
-            //apply all the new scenes into the scene manager
-            EditorBuildSettings.scenes = allScenes.ToArray();
+            TextAsset file = Resources.Load<TextAsset>($"MinigamesList");
+            List<string> listOfNames = new();
+            string[] lines = file.text.Split('\n');
 
-            return listOfMinigames;
+            foreach (string line in lines)
+            {
+                if (line != "")
+                    listOfNames.Add(line);
+            }
+            return listOfNames;
         }
     }
 

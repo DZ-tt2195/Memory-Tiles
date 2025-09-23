@@ -189,7 +189,7 @@ public class Translator : MonoBehaviour
 
     #endregion
 
-    #region Helpers
+#region Helpers
 
     public string Translate(string key, List<(string, string)> toReplace = null)
     {
