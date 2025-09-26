@@ -270,8 +270,8 @@ MonoBehaviour:
   goodGrade: 13
   barelyGrade: 6
   timerText: {fileID: 327612831}
-  coinPrefab: {fileID: 7111877122021526420, guid: e367f11ffed724657a0b5bb505ecb685, type: 3}
-  rockPrefab: {fileID: 5295845330422481364, guid: e083860cba06547d6815ae9ee120cbc4, type: 3}
+  coinPrefab: {fileID: 6998344176625089874, guid: e367f11ffed724657a0b5bb505ecb685, type: 3}
+  rockPrefab: {fileID: 2744169325635527425, guid: e083860cba06547d6815ae9ee120cbc4, type: 3}
 --- !u!1 &161336350
 GameObject:
   m_ObjectHideFlags: 0

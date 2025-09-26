@@ -12,11 +12,11 @@ namespace DolphinJump
         [SerializeField] TMP_Text timerText;
 
         int score = 0;
-        Queue<GameObject> coinQueue = new();
-        [SerializeField] GameObject coinPrefab;
+        Queue<MoveLeft> coinQueue = new();
+        [SerializeField] MoveLeft coinPrefab;
 
-        Queue<GameObject> rockQueue = new();
-        [SerializeField] GameObject rockPrefab;
+        Queue<MoveLeft> rockQueue = new();
+        [SerializeField] MoveLeft rockPrefab;
 
         private void Awake()
         {
@@ -52,7 +52,6 @@ namespace DolphinJump
         {
             if (gameState == GameState.Started)
             {
-                performanceSlider.value = (float)score / amazingGrade;
                 timerText.text = StopwatchTime(gameTimer);
                 if (gameTimer.Elapsed.TotalSeconds >= 30)
                 {
@@ -63,22 +62,23 @@ namespace DolphinJump
             }
         }
 
-        public void ReturnToQueue(GameObject obj, bool coin, bool affectScore)
+        public void ReturnToQueue(MoveLeft obj, bool coin, bool affectScore)
         {
             if (coin)
             {
                 coinQueue.Enqueue(obj);
-                obj.SetActive(false);
+                obj.gameObject.SetActive(false);
                 if (affectScore)
                     score = (int)Mathf.Clamp(score + 1, 0, amazingGrade);
             }
             else
             {
                 rockQueue.Enqueue(obj);
-                obj.SetActive(false);
+                obj.gameObject.SetActive(false);
                 if (affectScore)
                     score = (int)Mathf.Clamp(score - 3, 0, amazingGrade);
             }
+            performanceSlider.value = (float)score / amazingGrade;
         }
 
         void CreateCoin()
@@ -86,13 +86,9 @@ namespace DolphinJump
             if (gameState != GameState.Started)
                 return;
 
-            GameObject newCoin = (coinQueue.Count > 0) ? coinQueue.Dequeue() : Instantiate(coinPrefab);
-            newCoin.SetActive(true);
-
-            float randomY = Random.Range(-4f, 4f);
-            Vector2 starting = new(10f, randomY);
-            Vector2 ending = new(-10f, randomY);
-            StartCoroutine(MoveObject(newCoin, false, Random.Range(5f, 10f), starting, ending));
+            MoveLeft newCoin = (coinQueue.Count > 0) ? coinQueue.Dequeue() : Instantiate(coinPrefab);
+            newCoin.transform.position = new(9f, Random.Range(-4.5f, 4.5f));
+            newCoin.AssignInfo(new(-9f, newCoin.transform.position.y), Random.Range(5f, 10f));
         }
 
         void CreateRock()
@@ -100,28 +96,9 @@ namespace DolphinJump
             if (gameState != GameState.Started)
                 return;
 
-            GameObject newRock = (rockQueue.Count > 0) ? rockQueue.Dequeue() : Instantiate(rockPrefab);
-            newRock.SetActive(true);
-
-            float randomY = Random.Range(-5f, 4f);
-            Vector2 starting = new(10f, randomY);
-            Vector2 ending = new(-10f, randomY);
-            StartCoroutine(MoveObject(newRock, false, Random.Range(15f, 20f), starting, ending));
-        }
-
-        IEnumerator MoveObject(GameObject obj, bool coin, float targetTime, Vector2 start, Vector2 end)
-        {
-            float elapsedTime = 0f;
-            while (elapsedTime < targetTime)
-            {
-                elapsedTime += Time.deltaTime;
-                obj.transform.position = Vector2.Lerp(start, end, elapsedTime / targetTime);
-                if (!obj.activeInHierarchy)
-                    yield break;
-                else
-                    yield return null;
-            }
-            ReturnToQueue(obj, coin, false);
+            MoveLeft newRock = (rockQueue.Count > 0) ? rockQueue.Dequeue() : Instantiate(rockPrefab);
+            newRock.transform.position = new(9f, Random.Range(-4.5f, 4.5f));
+            newRock.AssignInfo(new(-9f, newRock.transform.position.y), Random.Range(15f, 20f));
         }
 
         public void GameEnded()

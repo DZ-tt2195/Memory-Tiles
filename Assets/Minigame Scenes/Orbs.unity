@@ -163,9 +163,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819913226a0b74eacb9844a1547c36ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amazingGrade: 15
-  goodGrade: 10
-  barelyGrade: 5
+  amazingGrade: 10
+  goodGrade: 6
+  barelyGrade: 3
   orbPrefab: {fileID: 6277778633162285221, guid: 537ea7cf3d3864445aaf660596503f0c, type: 3}
 --- !u!1001 &833404640
 PrefabInstance:

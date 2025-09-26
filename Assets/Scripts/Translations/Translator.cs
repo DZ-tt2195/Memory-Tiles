@@ -148,7 +148,7 @@ public class Translator : MonoBehaviour
         {
             for (int j = 0; j < data[i].Length; j++)
             {
-                data[i][j] = data[i][j].Replace("\"", "").Replace("\\", "").Replace("]", "").Trim();
+                data[i][j] = data[i][j].Replace("\"", "").Replace("\\", "").Replace("]", "").Replace("|", "\n").Trim();
                 if (j > 0)
                 {
                     string language = data[1][j];

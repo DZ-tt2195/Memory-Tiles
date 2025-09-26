@@ -66,7 +66,7 @@ public class TitleScreen : MonoBehaviour
         void FindScore()
         {
             if (PlayerPrefs.GetInt("High Score") > 0)
-                bestScore.text = $"{Translator.inst.Translate("High Score")}: {PlayerPrefs.HasKey("High Score")}";
+                bestScore.text = $"{Translator.inst.Translate("High Score")}: {PlayerPrefs.GetInt("High Score")}";
             else
                 bestScore.text = Translator.inst.Translate("No Score");
         }

@@ -8,8 +8,12 @@
       "by Thomas Tang (DZ)"
     ],
     [
+      "Inspiration",
+      "Inspired by Wii Party U's Animal Match-up"
+    ],
+    [
       "Last Update",
-      "Last Updated: September 23, 2025"
+      "Last Updated: September 25, 2025"
     ],
     [
       "Translator Credit",
@@ -153,7 +157,7 @@
     ],
     [
       "End Text",
-      "Your score: $Score$\nTheoretical best score: $BestScore$\n\nTo increase your score:\nAdd more tiles\nAdd larger gaps between minigames\nGet better ranks in minigames\nSelect fewer wrong tiles"
+      "Your score: $Score$ | Theoretical best score: $BestScore$ | | To increase your score: | Add more tiles | Add larger gaps between minigames | Get better ranks in minigames | Select fewer wrong tiles"
     ],
     [
       "Done",

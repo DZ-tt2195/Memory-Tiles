@@ -53,11 +53,11 @@ namespace DolphinJump
         {
             if (collision.CompareTag("Coin"))
             {
-                manager.ReturnToQueue(collision.gameObject, true, true);
+                manager.ReturnToQueue(collision.GetComponent<MoveLeft>(), true, true);
             }
             else if (collision.CompareTag("Death"))
             {
-                manager.ReturnToQueue(collision.gameObject, false, true);
+                manager.ReturnToQueue(collision.GetComponent<MoveLeft>(), false, true);
             }
         }
     }

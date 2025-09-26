@@ -97,7 +97,7 @@ public class OrbManager : CurrentMinigame
             newOrb.name = $"{newNumber}";
             currentGen++;
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(3.5f);
         }
     }
 

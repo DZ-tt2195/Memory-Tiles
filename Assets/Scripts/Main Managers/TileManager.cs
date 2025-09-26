@@ -76,17 +76,19 @@ public class TileManager : MonoBehaviour
             }
         }
         int maxObjects = listOfTiles.Count;
+
         for (int i = maxObjects-1; i>=PlayerPrefs.GetInt("Tiles"); i--)
         {
             int randomNumber = Random.Range(0, listOfTiles.Count);
             listOfTiles[randomNumber].gameObject.SetActive(false);
             listOfTiles.RemoveAt(randomNumber);
         }
-        health = 5;
 
+        health = 5;
         minigames = PlayerPrefs.GetInt("Minigame");
         score = (minigames * 10) + (listOfTiles.Count * 100);
         maxScore = score;
+
         doneButton.gameObject.SetActive(false);
         endText.gameObject.SetActive(false);
         StartCoroutine(RevealTiles(10f));

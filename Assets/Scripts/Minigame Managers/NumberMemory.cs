@@ -1,7 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
-using System.Collections;
 using TMPro;
 
 public class NumberMemory : CurrentMinigame
@@ -69,6 +67,7 @@ public class NumberMemory : CurrentMinigame
         if (number == allNumbers[currentNumber])
         {
             NextNumber();
+            performanceSlider.value = (float)currentNumber / amazingGrade;
         }
         else
         {
