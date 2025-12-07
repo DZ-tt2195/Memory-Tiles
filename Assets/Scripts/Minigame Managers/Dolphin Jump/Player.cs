@@ -28,24 +28,24 @@ namespace DolphinJump
 
                 if (newState == WaterState.AboveWater && state == WaterState.BelowWater)
                 {
-                    rb.velocity = new Vector2(moveX, Mathf.Abs(lowestPoint*4.25f));
+                    rb.linearVelocity = new Vector2(moveX, Mathf.Abs(lowestPoint*4.25f));
                 }
                 else if (transform.position.y >= 0)
                 {
-                    rb.velocity = new Vector2(moveX, rb.velocity.y);
+                    rb.linearVelocity = new Vector2(moveX, rb.linearVelocity.y);
                 }
                 else
                 {
                     if (moveY <= 0)
                         lowestPoint = Mathf.Abs(this.transform.position.y);
-                    rb.velocity = new Vector2(moveX, moveY);
+                    rb.linearVelocity = new Vector2(moveX, moveY);
                 }
                 state = newState;
             }
             else
             {
                 rb.gravityScale = 0;
-                rb.velocity = Vector3.zero;
+                rb.linearVelocity = Vector3.zero;
             }
         }
 

@@ -19,12 +19,12 @@ namespace CloudAttack
             {
                 rb.gravityScale = 2.5f;
                 float moveX = Input.GetAxis("Horizontal") * 10f;
-                rb.velocity = new Vector2(moveX, rb.velocity.y);
+                rb.linearVelocity = new Vector2(moveX, rb.linearVelocity.y);
             }
             else
             {
                 rb.gravityScale = 0;
-                rb.velocity = Vector3.zero;
+                rb.linearVelocity = Vector3.zero;
             }
 
             if (transform.position.y <= -4.5f)
@@ -33,9 +33,9 @@ namespace CloudAttack
 
         private void OnTriggerStay2D(Collider2D collision)
         {
-            if (rb.velocity.y < 0 && collision.CompareTag("Platform"))
+            if (rb.linearVelocity.y < 0 && collision.CompareTag("Platform"))
             {
-                rb.velocity = new Vector2(rb.velocity.x, 12f);
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, 12f);
                 manager.ReturnPlatform(collision.gameObject);
             }
             else if (collision.CompareTag("Death"))
